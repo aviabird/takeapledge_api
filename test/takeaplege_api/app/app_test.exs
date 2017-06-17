@@ -68,9 +68,19 @@ defmodule TakeaplegeApi.AppTest do
   describe "users" do
     alias TakeaplegeApi.App.User
 
-    @valid_attrs %{email: "some email", password: "some password", password_hash: "some password_hash"}
-    @update_attrs %{email: "some updated email", password: "some updated password", password_hash: "some updated password_hash"}
-    @invalid_attrs %{email: nil, password: nil, password_hash: nil}
+    @valid_attrs %{
+      email: "new_user@aviabird.com",
+      password: "newpass",
+      name: "New User",
+      bio: "Software Developer"
+    }
+    @update_attrs %{
+      email: "updated_user@aviabird.com",
+      password: "updatepass",
+      name: "Updated User",
+      bio: "Senior Software Developer"
+    }
+    @invalid_attrs %{email: nil, password: nil, name: nil, bio: nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -78,7 +88,7 @@ defmodule TakeaplegeApi.AppTest do
         |> Enum.into(@valid_attrs)
         |> App.create_user()
 
-      user
+      Map.put(user, :password, nil)
     end
 
     test "list_users/0 returns all users" do
@@ -93,9 +103,9 @@ defmodule TakeaplegeApi.AppTest do
 
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = App.create_user(@valid_attrs)
-      assert user.email == "some email"
-      assert user.password == "some password"
-      assert user.password_hash == "some password_hash"
+      assert user.email == "new_user@aviabird.com"
+      assert user.name == "New User"
+      assert user.bio == "Software Developer"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -106,9 +116,9 @@ defmodule TakeaplegeApi.AppTest do
       user = user_fixture()
       assert {:ok, user} = App.update_user(user, @update_attrs)
       assert %User{} = user
-      assert user.email == "some updated email"
-      assert user.password == "some updated password"
-      assert user.password_hash == "some updated password_hash"
+      assert user.email == "updated_user@aviabird.com"
+      assert user.name == "Updated User"
+      assert user.bio == "Senior Software Developer"
     end
 
     test "update_user/2 with invalid data returns error changeset" do

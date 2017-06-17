@@ -4,9 +4,19 @@ defmodule TakeaplegeApi.Web.UserControllerTest do
   alias TakeaplegeApi.App
   alias TakeaplegeApi.App.User
 
-  @create_attrs %{email: "some email", password: "some password", password_hash: "some password_hash"}
-  @update_attrs %{email: "some updated email", password: "some updated password", password_hash: "some updated password_hash"}
-  @invalid_attrs %{email: nil, password: nil, password_hash: nil}
+  @create_attrs %{
+    email: "new_user@aviabird.com",
+    password: "newpass",
+    name: "New User",
+    bio: "Software Developer"
+  }
+  @update_attrs %{
+    email: "updated_user@aviabird.com",
+    password: "updatepass",
+    name: "Updated User",
+    bio: "Senior Software Developer"
+  }
+  @invalid_attrs %{email: nil, password: nil, name: nil, bio: nil}
 
   def fixture(:user) do
     {:ok, user} = App.create_user(@create_attrs)
@@ -29,9 +39,9 @@ defmodule TakeaplegeApi.Web.UserControllerTest do
     conn = get conn, user_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "email" => "some email",
-      "password" => "some password",
-      "password_hash" => "some password_hash"}
+      "email" => "new_user@aviabird.com",
+      "name" => "New User",
+      "bio" => "Software Developer"}
   end
 
   test "does not create user and renders errors when data is invalid", %{conn: conn} do
@@ -47,9 +57,9 @@ defmodule TakeaplegeApi.Web.UserControllerTest do
     conn = get conn, user_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "email" => "some updated email",
-      "password" => "some updated password",
-      "password_hash" => "some updated password_hash"}
+      "email" => "updated_user@aviabird.com",
+      "name" => "Updated User",
+      "bio" => "Senior Software Developer"}
   end
 
   test "does not update chosen user and renders errors when data is invalid", %{conn: conn} do

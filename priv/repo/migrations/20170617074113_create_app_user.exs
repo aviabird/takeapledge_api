@@ -5,7 +5,8 @@ defmodule TakeaplegeApi.Repo.Migrations.CreateTakeaplegeApi.App.User do
     create table(:app_users) do
       add :email, :string
       add :password_hash, :string
-      add :password, :string
+      add :name, :string
+      add :bio, :text
 
       timestamps()
     end
