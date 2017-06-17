@@ -3,6 +3,7 @@ defmodule TakeaplegeApi.Web.UserControllerTest do
 
   alias TakeaplegeApi.App
   alias TakeaplegeApi.App.User
+  alias TakeaplegeApi.Repo
 
   @create_attrs %{
     email: "new_user@aviabird.com",
@@ -37,11 +38,15 @@ defmodule TakeaplegeApi.Web.UserControllerTest do
     assert %{"id" => id} = json_response(conn, 201)["data"]
 
     conn = get conn, user_path(conn, :show, id)
-    assert json_response(conn, 200)["data"] == %{
+    body = json_response(conn, 200)
+    assert body["data"] == %{
       "id" => id,
       "email" => "new_user@aviabird.com",
       "name" => "New User",
       "bio" => "Software Developer"}
+
+    refute body["data"]["password"]
+    assert Repo.get_by(User, email: "new_user@aviabird.com")
   end
 
   test "does not create user and renders errors when data is invalid", %{conn: conn} do
