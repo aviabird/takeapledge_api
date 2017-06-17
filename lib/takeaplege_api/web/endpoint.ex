@@ -36,6 +36,8 @@ defmodule TakeaplegeApi.Web.Endpoint do
     key: "_takeaplege_api_key",
     signing_salt: "liQoiZN6"
 
+  plug CORSPlug
+  
   plug TakeaplegeApi.Web.Router
 
   @doc """

@@ -7,5 +7,9 @@ defmodule TakeaplegeApi.Web.Router do
 
   scope "/api", TakeaplegeApi.Web do
     pipe_through :api
+    
+    resources "/categories", CategoryController, except: [:new, :edit]
+    resources "/posts", PostController, except: [:new, :edit]
+    resources "/users", UserController, except: [:new, :edit]
   end
 end
