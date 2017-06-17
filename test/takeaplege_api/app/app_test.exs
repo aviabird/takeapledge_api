@@ -109,7 +109,32 @@ defmodule TakeaplegeApi.AppTest do
     end
 
     test "create_user/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = App.create_user(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{errors: errors}} = App.create_user(@invalid_attrs)
+      
+      [:email, :name, :bio]
+        |> Enum.map(
+          &(assert "can't be blank" == errors[&1] |> elem(0))
+        )
+    end
+
+    test "create_user/1, changeset, email invalid format" do
+      changeset = User.changeset(
+        %User{}, Map.put(@valid_attrs, :email, "foo.com")
+      )
+      refute changeset.valid?
+    end
+
+    test "create_user/1, registration_changeset" do
+      changeset = User.registration_changeset(%User{}, @valid_attrs)
+      assert changeset.changes.password_hash
+      assert changeset.valid?
+    end
+
+    test "create_user/1, registration_changeset, password too short" do
+      changeset = User.registration_changeset(
+        %User{}, Map.put(@valid_attrs, :password, "12345")
+      )
+      refute changeset.valid?
     end
 
     test "update_user/2 with valid data updates the user" do
