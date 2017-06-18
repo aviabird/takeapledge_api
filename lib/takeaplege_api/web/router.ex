@@ -11,5 +11,6 @@ defmodule TakeaplegeApi.Web.Router do
     resources "/categories", CategoryController, except: [:new, :edit]
     resources "/posts", PostController, except: [:new, :edit]
     resources "/users", UserController, except: [:new, :edit]
+    resources "/sessions", SessionController, only: [:create]
   end
 end
