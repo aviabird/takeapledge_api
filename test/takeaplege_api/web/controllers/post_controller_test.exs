@@ -3,13 +3,25 @@ defmodule TakeaplegeApi.Web.PostControllerTest do
 
   alias TakeaplegeApi.Category
   alias TakeaplegeApi.Category.Post
+  alias TakeaplegeApi.App
 
   @create_attrs %{content: "some content", title: "some title"}
   @update_attrs %{content: "some updated content", title: "some updated title"}
   @invalid_attrs %{content: nil, title: nil}
 
+  @user_attrs %{
+    email: "test@aviabird.com", password: "s3cr3t",
+    name: "Test", bio: "Test"}
+  @category_attrs %{desc: "some desc", title: "some title"}
+
   def fixture(:post) do
-    {:ok, post} = Category.create_post(@create_attrs)
+    {:ok, user} = App.create_user(@user_attrs)
+    {:ok, category} = App.create_category(@category_attrs)
+    {:ok, post} = Category.create_post(
+      @create_attrs
+      |> Map.put(:category_id, category.id)
+      |> Map.put(:user_id, user.id)
+    )
     post
   end
 
@@ -23,7 +35,12 @@ defmodule TakeaplegeApi.Web.PostControllerTest do
   end
 
   test "creates post and renders post when data is valid", %{conn: conn} do
-    conn = post conn, post_path(conn, :create), post: @create_attrs
+    {:ok, user} = App.create_user(@user_attrs)
+    {:ok, category} = App.create_category(@category_attrs)
+    conn = post conn, post_path(conn, :create),
+      post: @create_attrs
+            |> Map.put(:category_id, category.id)
+            |> Map.put(:user_id, user.id)
     assert %{"id" => id} = json_response(conn, 201)["data"]
 
     conn = get conn, post_path(conn, :show, id)

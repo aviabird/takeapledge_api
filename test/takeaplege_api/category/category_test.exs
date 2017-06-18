@@ -2,6 +2,7 @@ defmodule TakeaplegeApi.CategoryTest do
   use TakeaplegeApi.DataCase
 
   alias TakeaplegeApi.Category
+  alias TakeaplegeApi.App
 
   describe "posts" do
     alias TakeaplegeApi.Category.Post
@@ -10,10 +11,21 @@ defmodule TakeaplegeApi.CategoryTest do
     @update_attrs %{content: "some updated content", title: "some updated title"}
     @invalid_attrs %{content: nil, title: nil}
 
+    @user_attrs %{
+      email: "test@aviabird.com", password: "s3cr3t",
+      name: "Test", bio: "Test"}
+    @category_attrs %{desc: "some desc", title: "some title"}
+
     def post_fixture(attrs \\ %{}) do
+      {:ok, user} = App.create_user(@user_attrs)
+      {:ok, category} = App.create_category(@category_attrs)
       {:ok, post} =
         attrs
-        |> Enum.into(@valid_attrs)
+        |> Enum.into(
+          @valid_attrs
+          |> Map.put(:category_id, category.id)
+          |> Map.put(:user_id, user.id)
+        )
         |> Category.create_post()
 
       post
@@ -30,7 +42,12 @@ defmodule TakeaplegeApi.CategoryTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      assert {:ok, %Post{} = post} = Category.create_post(@valid_attrs)
+      {:ok, user} = App.create_user(@user_attrs)
+      {:ok, category} = App.create_category(@category_attrs)
+      assert {:ok, %Post{} = post} = Category.create_post(
+        @valid_attrs
+        |> Map.put(:category_id, category.id)
+        |> Map.put(:user_id, user.id))
       assert post.content == "some content"
       assert post.title == "some title"
     end
