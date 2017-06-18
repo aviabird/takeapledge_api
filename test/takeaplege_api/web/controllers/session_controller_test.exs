@@ -14,17 +14,17 @@ defmodule TakeaplegeApi.Web.SessionControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, session_path(conn, :create), user: @valid_attrs
-    token = json_response(conn, 200)["data"]["token"]
+    token = json_response(conn, 201)["data"]["token"]
     assert App.get_session_by_token!(token)
   end
 
   test "does not create resource and renders errors when password is invalid", %{conn: conn} do
     conn = post conn, session_path(conn, :create), user: Map.put(@valid_attrs, :password, "notright")
-    assert json_response(conn, 401)["errors"] != %{}
+    assert json_response(conn, 422)["errors"] != %{}
   end
 
   test "does not create resource and renders errors when email is invalid", %{conn: conn} do
     conn = post conn, session_path(conn, :create), user: Map.put(@valid_attrs, :email, "not@found.com")
-    assert json_response(conn, 401)["errors"] != %{}
+    assert json_response(conn, 422)["errors"] != %{}
   end
 end

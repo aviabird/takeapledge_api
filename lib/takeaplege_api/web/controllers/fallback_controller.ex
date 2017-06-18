@@ -17,4 +17,10 @@ defmodule TakeaplegeApi.Web.FallbackController do
     |> put_status(:not_found)
     |> render(TakeaplegeApi.Web.ErrorView, :"404")
   end
+
+  def call(conn, {:error, user_params}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> render("error.json", user_params)
+  end
 end

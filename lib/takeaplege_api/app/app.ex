@@ -257,20 +257,20 @@ defmodule TakeaplegeApi.App do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_session(attrs \\ %{}) do
+  def create_session(user_params \\ %{}) do
     import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
     
-    user = Repo.get_by(User, email: attrs["email"])
+    user = Repo.get_by(User, email: user_params["email"])
     cond do
-      user && checkpw(attrs["password"], user.password_hash) ->
+      user && checkpw(user_params["password"], user.password_hash) ->
         %Session{}
         |> Session.registration_changeset(%{user_id: user.id})
         |> Repo.insert()
       user ->
-        user
+        {:error, user_params}
       true ->
         dummy_checkpw()
-        %User{}
+        {:error, user_params}
     end
   end
 
