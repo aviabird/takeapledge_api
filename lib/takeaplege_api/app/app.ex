@@ -260,7 +260,7 @@ defmodule TakeaplegeApi.App do
   def create_session(user_params \\ %{}) do
     import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
     
-    user = Repo.get_by(User, email: user_params["email"])
+    user = Repo.get_by(User, email: "#{user_params["email"]}")
     cond do
       user && checkpw(user_params["password"], user.password_hash) ->
         %Session{}

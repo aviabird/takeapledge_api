@@ -16,7 +16,7 @@ defmodule TakeaplegeApi.Category.Post do
   @doc false
   def changeset(%Post{} = post, attrs) do
     post
-    |> cast(attrs, [:title, :content])
-    |> validate_required([:title, :content])
+    |> cast(attrs, [:title, :content, :user_id, :category_id])
+    |> validate_required([:title, :content, :user_id, :category_id])
   end
 end

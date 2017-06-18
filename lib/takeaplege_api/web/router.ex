@@ -5,7 +5,7 @@ defmodule TakeaplegeApi.Web.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", TakeaplegeApi.Web do
+  scope "/api/v1", TakeaplegeApi.Web do
     pipe_through :api
     
     resources "/categories", CategoryController, except: [:new, :edit]
