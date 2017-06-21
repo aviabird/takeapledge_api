@@ -13,6 +13,7 @@ defmodule TakeaplegeApi.Web.PostView do
   def render("post.json", %{post: post}) do
     %{id: post.id,
       title: post.title,
-      content: post.content}
+      content: post.content,
+      category_id: post.category_id}
   end
 end
