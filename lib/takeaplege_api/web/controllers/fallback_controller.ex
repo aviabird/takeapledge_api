@@ -19,15 +19,15 @@ defmodule TakeaplegeApi.Web.FallbackController do
     |> render(TakeaplegeApi.Web.ErrorView, :"404")
   end
 
-  def call(conn, {:error, user_params}) do
-    conn
-    |> put_status(:unprocessable_entity)
-    |> render("error.json", user_params)
-  end
-
   def call(conn, {:error, :unauthorized}) do
     conn
     |> put_status(:unauthorized)
     |> render(TakeaplegeApi.Web.SessionView, "forbidden.json")
+  end
+  
+  def call(conn, {:error, user_params}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> render("error.json", user_params)
   end
 end

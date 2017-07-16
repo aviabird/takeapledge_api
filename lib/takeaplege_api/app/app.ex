@@ -268,7 +268,7 @@ defmodule TakeaplegeApi.App do
         {:error, user_params}
       true ->
         dummy_checkpw()
-        {:error, %User{}}
+        {:error, user_params}
     end
   end
 
