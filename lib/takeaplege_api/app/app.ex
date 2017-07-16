@@ -263,14 +263,31 @@ defmodule TakeaplegeApi.App do
     user = Repo.get_by(User, email: "#{user_params["email"]}")
     cond do
       user && checkpw(user_params["password"], user.password_hash) ->
-        %Session{}
-        |> Session.registration_changeset(%{user_id: user.id})
-        |> Repo.insert()
+        find_or_create_session(user.id)
       user ->
         {:error, user_params}
       true ->
         dummy_checkpw()
-        {:error, user_params}
+        {:error, %User{}}
+    end
+  end
+
+  @doc """
+  Find or Create Session
+
+  ## Examples
+
+    iex> find_or_create_session(session, %{field: new_value})
+    {:ok, %Session{}}
+  """
+  def find_or_create_session(user_id) do
+    session = Repo.get_by(Session, user_id: user_id)
+    cond do
+      session -> {:ok, %Session{} = session}
+      nil || true ->
+        %Session{}
+        |> Session.registration_changeset(%{user_id: user_id})
+        |> Repo.insert()
     end
   end
 

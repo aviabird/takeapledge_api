@@ -11,5 +11,7 @@ defmodule TakeaplegeApi.Repo.Migrations.CreateTakeaplegeApi.App.User do
       timestamps()
     end
 
+    create unique_index(:app_users, [:email])
+
   end
 end

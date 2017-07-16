@@ -5,6 +5,7 @@ defmodule TakeaplegeApi.Web.FallbackController do
   See `Phoenix.Controller.action_fallback/1` for more details.
   """
   use TakeaplegeApi.Web, :controller
+  alias TakeaplegeApi.App.User
 
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
@@ -18,9 +19,15 @@ defmodule TakeaplegeApi.Web.FallbackController do
     |> render(TakeaplegeApi.Web.ErrorView, :"404")
   end
 
-  def call(conn, {:error, user_params}) do
+  def call(conn, {:error, %User{} = user_params}) do
     conn
     |> put_status(:unprocessable_entity)
     |> render("error.json", user_params)
+  end
+
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(:unauthorized)
+    |> render(TakeaplegeApi.Web.SessionView, "forbidden.json")
   end
 end

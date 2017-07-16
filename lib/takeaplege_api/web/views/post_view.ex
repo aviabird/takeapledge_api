@@ -14,6 +14,7 @@ defmodule TakeaplegeApi.Web.PostView do
     %{id: post.id,
       title: post.title,
       content: post.content,
-      category_id: post.category_id}
+      category_id: post.category_id,
+      user_id: post.user_id}
   end
 end

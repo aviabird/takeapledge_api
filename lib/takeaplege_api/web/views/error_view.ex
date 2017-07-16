@@ -14,4 +14,8 @@ defmodule TakeaplegeApi.Web.ErrorView do
   def template_not_found(_template, assigns) do
     render "500.json", assigns
   end
+
+  def render("401.json", _assigns) do
+    %{errors: %{detail: "Unauthorized"}}
+  end
 end

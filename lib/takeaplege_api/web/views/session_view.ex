@@ -12,6 +12,10 @@ defmodule TakeaplegeApi.Web.SessionView do
   end
 
   def render("error.json", _anything) do
-    %{errors: "failed to authenticate"}
+    %{errors: "username/password is invalid"}
+  end
+
+  def render("forbidden.json", _anything) do
+    %{errors: "Not Authorized"}
   end
 end
