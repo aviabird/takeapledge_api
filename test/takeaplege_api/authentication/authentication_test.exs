@@ -7,7 +7,7 @@ defmodule TakeaplegeApi.AuthenticationTest do
 
   def put_auth_token_in_header(conn, token) do
     conn
-    |> put_req_header("authorization", "Token token=\"#{token}\"")
+    |> put_req_header("authorization", "Token token=#{token}")
   end
 
   test "finds the user by token", %{conn: conn} do
@@ -17,7 +17,7 @@ defmodule TakeaplegeApi.AuthenticationTest do
     conn = conn
     |> put_auth_token_in_header(session.token)
     |> Authentication.call(@opts)
-
+    
     assert conn.assigns.current_user
   end
 

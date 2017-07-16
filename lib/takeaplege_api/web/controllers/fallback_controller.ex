@@ -19,7 +19,7 @@ defmodule TakeaplegeApi.Web.FallbackController do
     |> render(TakeaplegeApi.Web.ErrorView, :"404")
   end
 
-  def call(conn, {:error, %User{} = user_params}) do
+  def call(conn, {:error, user_params}) do
     conn
     |> put_status(:unprocessable_entity)
     |> render("error.json", user_params)
