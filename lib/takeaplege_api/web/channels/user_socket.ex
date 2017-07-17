@@ -3,6 +3,7 @@ defmodule TakeaplegeApi.Web.UserSocket do
 
   ## Channels
   # channel "room:*", TakeaplegeApi.Web.RoomChannel
+  channel "comments:lobby", TakeaplegeApi.Web.CommentsChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
