@@ -13,7 +13,7 @@ defmodule TakeaplegeApi.Web.CommentView do
   def render("comment.json", %{comment: comment}) do
     %{id: comment.id,
       message: comment.message,
-      post_id: comment.post_id.
+      post_id: comment.post_id,
       user_id: comment.user_id}
   end
 end
