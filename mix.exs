@@ -36,7 +36,8 @@ defmodule TakeaplegeApi.Mixfile do
      {:cowboy, "~> 1.0"},
      {:cors_plug, "~> 1.1"},
      {:comeonin, "~> 2.0"},
-     {:secure_random, "~> 0.2"},]
+     {:secure_random, "~> 0.2"},
+     {:ex_doc, "~> 0.13", only: :dev}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
