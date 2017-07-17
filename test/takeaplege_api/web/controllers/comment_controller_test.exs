@@ -29,7 +29,9 @@ defmodule TakeaplegeApi.Web.CommentControllerTest do
     conn = get conn, comment_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "message" => "some message"}
+      "message" => "some message",
+      "post_id" => nil,
+      "user_id" => nil}
   end
 
   test "does not create comment and renders errors when data is invalid", %{conn: conn} do
@@ -45,7 +47,9 @@ defmodule TakeaplegeApi.Web.CommentControllerTest do
     conn = get conn, comment_path(conn, :show, id)
     assert json_response(conn, 200)["data"] == %{
       "id" => id,
-      "message" => "some updated message"}
+      "message" => "some updated message",
+      "post_id" => nil,
+      "user_id" => nil}
   end
 
   test "does not update chosen comment and renders errors when data is invalid", %{conn: conn} do

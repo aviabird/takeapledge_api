@@ -180,7 +180,7 @@ defmodule TakeaplegeApi.AppTest do
 
     test "create_session/1 with valid data creates a session" do
       session_fixture()
-      assert {:ok, %Session{} = session} = App.create_session(@valid_attrs)
+      assert {:ok, %Session{} = _} = App.create_session(@valid_attrs)
     end
 
     test "create_session/1 with invalid data returns error changeset" do

@@ -100,9 +100,9 @@ defmodule TakeaplegeApi.Web.PostControllerTest do
   end
 
   test "does not update post and renders errors when user is not valid",
-    %{conn: conn, current_user: current_user}
+    %{conn: conn, current_user: _current_user}
   do
-    %Post{id: id} = post = fixture(:post)
+    %Post{id: _id} = post = fixture(:post)
     conn = put conn, post_path(conn, :update, post),
       post: Map.put(@update_attrs, :user_id, post.user_id)
     assert json_response(conn, 401)["errors"] != %{}
@@ -117,7 +117,7 @@ defmodule TakeaplegeApi.Web.PostControllerTest do
     end
   end
 
-  test "does not deletes chosen post, if user is not valid", %{conn: conn, current_user: current_user} do
+  test "does not deletes chosen post, if user is not valid", %{conn: conn, current_user: _current_user} do
     post = fixture(:post)
     conn = delete conn, post_path(conn, :delete, post)
     assert json_response(conn, 401)["errors"] != %{}
