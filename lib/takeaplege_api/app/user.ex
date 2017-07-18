@@ -11,6 +11,8 @@ defmodule TakeaplegeApi.App.User do
     field :password_hash, :string
     field :password, :string, virtual: true
 
+    has_many :posts, TakeaplegeApi.Category.Post
+
     timestamps()
   end
 

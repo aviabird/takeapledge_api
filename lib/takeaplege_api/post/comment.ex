@@ -6,8 +6,9 @@ defmodule TakeaplegeApi.Post.Comment do
 
   schema "post_comments" do
     field :message, :string
-    field :user_id, :id
-    field :post_id, :id
+
+    belongs_to :user, TakeaplegeApi.App.User
+    belongs_to :post, TakeaplegeApi.Category.Post
 
     timestamps()
   end
@@ -15,7 +16,7 @@ defmodule TakeaplegeApi.Post.Comment do
   @doc false
   def changeset(%Comment{} = comment, attrs) do
     comment
-    |> cast(attrs, [:message])
-    |> validate_required([:message])
+    |> cast(attrs, ~w(message user_id post_id))
+    |> validate_required([:message, :user_id, :post_id])
   end
 end

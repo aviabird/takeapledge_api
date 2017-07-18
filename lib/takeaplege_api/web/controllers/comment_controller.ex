@@ -7,13 +7,20 @@ defmodule TakeaplegeApi.Web.CommentController do
 
   action_fallback TakeaplegeApi.Web.FallbackController
 
+  plug :scrub_params, "comment" when action in [:create, :update]
+
+  plug TakeaplegeApi.Authentication when not action in [:index, :show]
+
   def index(conn, _params) do
     comments = Post.list_comments()
     render(conn, "index.json", comments: comments)
   end
 
   def create(conn, %{"comment" => comment_params}) do
-    with {:ok, %Comment{} = comment} <- Post.create_comment(comment_params) do
+    with {:ok, %Comment{} = comment} <-
+      Post.create_comment(
+        Map.put(comment_params, "user_id", conn.assigns.current_user.id))
+    do
       CommentsChannel.broadcast_create(comment)
       conn
       |> put_status(:created)

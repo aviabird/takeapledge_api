@@ -1,6 +1,6 @@
 defmodule TakeaplegeApi.Web.PostView do
   use TakeaplegeApi.Web, :view
-  alias TakeaplegeApi.Web.PostView
+  alias TakeaplegeApi.Web.{PostView, UserView}
 
   def render("index.json", %{posts: posts}) do
     %{data: render_many(posts, PostView, "post.json")}
@@ -15,6 +15,7 @@ defmodule TakeaplegeApi.Web.PostView do
       title: post.title,
       content: post.content,
       category_id: post.category_id,
-      user_id: post.user_id}
+      user_id: post.user_id,
+      user: render_one(post.user, UserView, "user.json")}
   end
 end

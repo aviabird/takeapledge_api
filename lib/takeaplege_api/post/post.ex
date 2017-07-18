@@ -9,7 +9,7 @@ defmodule TakeaplegeApi.Post do
   alias TakeaplegeApi.Post.Comment
 
   @doc """
-  Returns the list of comments.
+  Returns the list of comments with User.
 
   ## Examples
 
@@ -18,11 +18,11 @@ defmodule TakeaplegeApi.Post do
 
   """
   def list_comments do
-    Repo.all(Comment)
+    Repo.all(Comment) |> Repo.preload(:user)
   end
 
   @doc """
-  Gets a single comment.
+  Gets a single comment with user.
 
   Raises `Ecto.NoResultsError` if the Comment does not exist.
 
@@ -35,7 +35,7 @@ defmodule TakeaplegeApi.Post do
       ** (Ecto.NoResultsError)
 
   """
-  def get_comment!(id), do: Repo.get!(Comment, id)
+  def get_comment!(id), do: Repo.get!(Comment, id) |> Repo.preload(:user)
 
   @doc """
   Creates a comment.
@@ -50,9 +50,12 @@ defmodule TakeaplegeApi.Post do
 
   """
   def create_comment(attrs \\ %{}) do
-    %Comment{}
-    |> Comment.changeset(attrs)
-    |> Repo.insert()
+    {:ok, comment} =
+      %Comment{}
+      |> Comment.changeset(attrs)
+      |> Repo.insert()
+    
+    {:ok, comment |> Repo.preload(:user)}
   end
 
   @doc """

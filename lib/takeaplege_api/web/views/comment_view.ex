@@ -1,6 +1,6 @@
 defmodule TakeaplegeApi.Web.CommentView do
   use TakeaplegeApi.Web, :view
-  alias TakeaplegeApi.Web.CommentView
+  alias TakeaplegeApi.Web.{CommentView, UserView}
 
   def render("index.json", %{comments: comments}) do
     %{data: render_many(comments, CommentView, "comment.json")}
@@ -14,6 +14,7 @@ defmodule TakeaplegeApi.Web.CommentView do
     %{id: comment.id,
       message: comment.message,
       post_id: comment.post_id,
-      user_id: comment.user_id}
+      user_id: comment.user_id,
+      user: render_one(comment.user, UserView, "user.json")}
   end
 end

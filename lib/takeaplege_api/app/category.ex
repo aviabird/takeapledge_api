@@ -8,6 +8,8 @@ defmodule TakeaplegeApi.App.Category do
     field :desc, :string
     field :title, :string
 
+    has_many :posts, TakeaplegeApi.Category.Post
+
     timestamps()
   end
 

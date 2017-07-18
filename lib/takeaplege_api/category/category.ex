@@ -18,7 +18,7 @@ defmodule TakeaplegeApi.Category do
 
   """
   def list_posts do
-    Repo.all(Post)
+    Repo.all(Post) |> Repo.preload(:user)
   end
 
   @doc """
@@ -35,7 +35,7 @@ defmodule TakeaplegeApi.Category do
       ** (Ecto.NoResultsError)
 
   """
-  def get_post!(id), do: Repo.get!(Post, id)
+  def get_post!(id), do: Repo.get!(Post, id) |> Repo.preload([:user, {:comments, [:user]}])
 
   @doc """
   Creates a post.

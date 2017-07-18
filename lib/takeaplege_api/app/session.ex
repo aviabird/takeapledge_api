@@ -6,7 +6,8 @@ defmodule TakeaplegeApi.App.Session do
 
   schema "app_sessions" do
     field :token, :string
-    field :user_id, :id
+
+    belongs_to :user, TakeaplegeApi.App.User
 
     timestamps()
   end

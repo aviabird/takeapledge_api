@@ -7,8 +7,11 @@ defmodule TakeaplegeApi.Category.Post do
   schema "category_posts" do
     field :content, :string
     field :title, :string
-    field :user_id, :id
-    field :category_id, :id
+
+    belongs_to :user, TakeaplegeApi.App.User
+    belongs_to :category, TakeaplegeApi.App.Category
+    
+    has_many :comments, TakeaplegeApi.Post.Comment
 
     timestamps()
   end
