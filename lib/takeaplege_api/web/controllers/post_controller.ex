@@ -34,7 +34,7 @@ defmodule TakeaplegeApi.Web.PostController do
 
   def update(conn, %{"id" => id, "post" => post_params}) do
     post = Category.get_post!(id)
-    with  {:ok, :authorized} <- can_edit?(conn, Dict.get(post_params, "user_id", nil)),
+    with  {:ok, :authorized} <- can_edit?(conn, Map.get(post_params, "user_id", nil)),
           {:ok, %Post{} = post} <- Category.update_post(post, post_params)
     do
       render(conn, "show.json", post: post)

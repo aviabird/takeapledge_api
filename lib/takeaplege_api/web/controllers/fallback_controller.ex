@@ -5,7 +5,6 @@ defmodule TakeaplegeApi.Web.FallbackController do
   See `Phoenix.Controller.action_fallback/1` for more details.
   """
   use TakeaplegeApi.Web, :controller
-  alias TakeaplegeApi.App.User
 
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
